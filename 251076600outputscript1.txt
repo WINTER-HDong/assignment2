@@ -1,0 +1,139 @@
+Warning: Using a password on the command line interface can be insecure.
+--------------
+SHOW databases
+--------------
+
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| 251076600assign2db |
+| db1                |
+| mysql              |
+| performance_schema |
+| vetoffice          |
++--------------------+
+6 rows in set (0.00 sec)
+
+--------------
+DROP DATABASE IF EXISTS 251076600assign2db
+--------------
+
+Query OK, 5 rows affected (0.15 sec)
+
+--------------
+CREATE DATABASE 251076600assign2db
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+GRANT USAGE ON *.* TO 'ta'@'localhost'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+DROP USER 'ta'@'localhost'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+CREATE USER 'ta'@'localhost' IDENTIFIED BY 'cs3319'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+GRANT ALL PRIVILEGES ON 251076600assign2db.* TO 'ta'@'localhost'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+FLUSH PRIVILEGES
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+SHOW TABLES
+--------------
+
+Empty set (0.00 sec)
+
+--------------
+CREATE TABLE doctor (
+	licensenumber CHAR(4) NOT NULL, 
+	firstname VARCHAR(20), 
+	lastname VARCHAR(20), 
+	specialty VARCHAR(30), 
+	date DATE, 
+	worksinhoscode CHAR(3), 
+	PRIMARY KEY (licensenumber)
+)
+--------------
+
+Query OK, 0 rows affected (0.20 sec)
+
+--------------
+CREATE TABLE patient (
+	ohip INT(9) NOT NULL, 
+	firstname VARCHAR(20), 
+	lastname VARCHAR(20), 
+	PRIMARY KEY (ohip)
+)
+--------------
+
+Query OK, 0 rows affected (0.06 sec)
+
+--------------
+CREATE TABLE hospital (
+	hospitalcode CHAR(3) NOT NULL, 
+	hospitalname VARCHAR(20), 
+	city VARCHAR(20), 
+	province CHAR(2), 
+	bednumber INT, 
+	headdocid CHAR(4), 
+	sincedate DATE, 
+	FOREIGN KEY (headdocid) REFERENCES doctor(licensenumber), 
+	PRIMARY KEY (hospitalcode)
+)
+--------------
+
+Query OK, 0 rows affected (0.07 sec)
+
+--------------
+CREATE TABLE treat (
+	ohip INT(9), 
+	licensenumber CHAR(4), 
+	FOREIGN KEY (ohip) REFERENCES patient(ohip), 
+	FOREIGN KEY (licensenumber) REFERENCES doctor(licensenumber) ON DELETE CASCADE)
+--------------
+
+Query OK, 0 rows affected (0.19 sec)
+
+--------------
+ALTER TABLE doctor
+ADD FOREIGN KEY (worksinhoscode) REFERENCES hospital(hospitalcode)
+--------------
+
+Query OK, 0 rows affected (0.23 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+--------------
+SHOW TABLES
+--------------
+
++------------------------------+
+| Tables_in_251076600assign2db |
++------------------------------+
+| doctor                       |
+| hospital                     |
+| patient                      |
+| treat                        |
++------------------------------+
+4 rows in set (0.00 sec)
+
+Bye

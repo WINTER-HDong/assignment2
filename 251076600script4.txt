@@ -1,0 +1,54 @@
+USE 251076600assign2db;
+
+-- Query 1
+DELETE FROM doctor WHERE date < '1965-01-01';
+
+
+
+SELECT * FROM doctor;
+SELECT * FROM hospital;
+SELECT * FROM treat;
+
+
+-- Query 2
+CREATE VIEW headTreat AS (
+	SELECT patient.firstname AS pfname, patient.lastname AS plname, doctor.lastname AS dlname, hospital.hospitalname
+        	FROM patient
+                	INNER JOIN treat ON patient.ohip = treat.ohip
+                	INNER JOIN doctor ON treat.licensenumber = doctor.licensenumber
+			INNER JOIN hospital ON hospital.headdocid = doctor.licensenumber
+		WHERE hospital.sincedate > '1995-12-31'
+);
+
+
+-- Query 3
+SELECT * FROM headTreat;
+
+
+-- Query 4
+SELECT * FROM doctor;
+SELECT * FROM treat;
+
+
+-- Query 5
+DELETE FROM doctor WHERE lastname = 'Clooney';
+
+
+-- Query 6
+SELECT * FROM doctor;
+
+SELECT * FROM information_schema.REFERENTIAL_CONSTRAINTS
+	WHERE CONSTRAINT_SCHEMA = '251076600assign2db';
+
+
+
+-- Query 7
+SELECT * FROM doctor;
+
+
+-- Query 8
+DELETE FROM doctor WHERE specialty = 'Surgeon';
+-- the delete command did not delete the rows because the deletion operation violates the foreign key constraint, where the column `headdocid` in table hospital is a foreign key referencing on the column `licensenumber` in table hospital;   
+SELECT * FROM doctor;
+
+

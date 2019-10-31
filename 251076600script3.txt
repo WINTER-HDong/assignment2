@@ -1,0 +1,58 @@
+USE 251076600assign2db;
+
+-- Query 1
+SELECT lastname FROM patient;
+
+-- Query 2
+SELECT DISTINCT lastname FROM patient;
+
+-- Query 3
+SELECT * FROM doctor ORDER BY lastname;
+
+-- Query 4
+SELECT hospitalname, hospitalcode FROM hospital WHERE bednumber > 1500;
+
+-- Query 5
+SELECT lastname, firstname 
+	FROM doctor INNER JOIN hospital ON worksinhoscode = hospitalcode 
+	WHERE hospitalname = 'St. Joseph';
+
+-- Query 6
+SELECT firstname, lastname FROM patient WHERE lastname LIKE 'G%';
+
+-- Query 7
+SELECT patient.firstname, patient.lastname 
+	FROM patient 
+		INNER JOIN treat ON patient.ohip = treat.ohip 
+		INNER JOIN doctor ON treat.licensenumber = doctor.licensenumber
+	WHERE doctor.lastname = 'Clooney';
+
+-- Query 8
+SELECT hospitalname, city, lastname 
+	FROM doctor INNER JOIN hospital ON hospital.headdocid = doctor.licensenumber; 
+
+-- Query 9
+SELECT SUM(bednumber) AS totalNumberofBeds FROM hospital;
+
+-- Query 10
+SELECT patient.firstname, doctor.firstname 
+	FROM patient 
+		INNER JOIN treat ON patient.ohip = treat.ohip
+		INNER JOIN doctor ON treat.licensenumber = doctor.licensenumber
+	WHERE doctor.licensenumber IN
+		(SELECT headdocid FROM hospital);
+
+-- Query 11
+SELECT lastname, firstname 
+	FROM doctor INNER JOIN hospital ON worksinhoscode = hospitalcode
+	WHERE specialty = 'Surgeon' AND hospitalname = 'Victoria';
+
+-- Query 12
+SELECT firstname FROM doctor
+	WHERE licensenumber NOT IN (SELECT licensenumber FROM treat);
+
+-- Query 13
+SELECT lastname, firstname 
+	FROM doctor INNER JOIN treat ON doctor.licensenumber = treat.licensenumber
+	GROUP BY doctor.licensenumber 
+	HAVING COUNT(ohip) > 1; 

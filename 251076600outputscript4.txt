@@ -1,0 +1,196 @@
+Warning: Using a password on the command line interface can be insecure.
+ERROR 1451 (23000) at line 4: Cannot delete or update a parent row: a foreign key constraint fails (`251076600assign2db`.`hospital`, CONSTRAINT `hospital_ibfk_1` FOREIGN KEY (`headdocid`) REFERENCES `doctor` (`licensenumber`))
+--------------
+DELETE FROM doctor WHERE date < '1965-01-01'
+--------------
+
+--------------
+SELECT * FROM doctor
+--------------
+
++---------------+--------------+------------------+----------------+------------+----------------+
+| licensenumber | firstname    | lastname         | specialty      | date       | worksinhoscode |
++---------------+--------------+------------------+----------------+------------+----------------+
+| GD56          | Joey         | Shabado          | Podiatrist     | 1960-06-24 | BBC            |
+| JK78          | Mandy        | Webster          | Surgeon        | 1990-08-08 | BBC            |
+| MW42          | Hans-Wilhelm | Muller-Wohlfahrt | SportsMedicine | 1975-04-02 | ABC            |
+| RD34          | Bernie       | Kavorikian       | Urologist      | 1980-09-09 | BBC            |
+| SE66          | Colleen      | Aziz             | Surgeon        | 1989-08-24 | ABC            |
+| YT67          | Ben          | Spock            | Pediatrician   | 1955-02-20 | DDE            |
++---------------+--------------+------------------+----------------+------------+----------------+
+6 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM hospital
+--------------
+
++--------------+--------------+----------+----------+-----------+-----------+------------+
+| hospitalcode | hospitalname | city     | province | bednumber | headdocid | sincedate  |
++--------------+--------------+----------+----------+-----------+-----------+------------+
+| ABC          | Victoria     | London   | On       |      1600 | SE66      | 1994-12-05 |
+| BBC          | St. Joseph   | London   | On       |      1000 | GD56      | 1999-09-10 |
+| DDE          | Victoria     | Victoria | BC       |      1200 | YT67      | 1997-12-07 |
++--------------+--------------+----------+----------+-----------+-----------+------------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM treat
+--------------
+
++-----------+---------------+
+| ohip      | licensenumber |
++-----------+---------------+
+| 110112113 | GD56          |
+| 444555666 | JK78          |
+| 111222333 | SE66          |
+| 111222333 | YT67          |
+| 111222333 | JK78          |
+| 333444555 | GD56          |
+| 667766777 | YT67          |
+| 667766777 | JK78          |
+| 667766777 | GD56          |
+| 111222111 | YT67          |
+| 251076600 | MW42          |
++-----------+---------------+
+11 rows in set (0.00 sec)
+
+ERROR 1050 (42S01) at line 12: Table 'headTreat' already exists
+--------------
+CREATE VIEW headTreat AS (
+	SELECT patient.firstname AS pfname, patient.lastname AS plname, doctor.lastname AS dlname, hospital.hospitalname
+        	FROM patient
+                	INNER JOIN treat ON patient.ohip = treat.ohip
+                	INNER JOIN doctor ON treat.licensenumber = doctor.licensenumber
+			INNER JOIN hospital ON hospital.headdocid = doctor.licensenumber
+		WHERE hospital.sincedate > '1995-12-31'
+)
+--------------
+
+--------------
+SELECT * FROM headTreat
+--------------
+
++---------+--------+---------+--------------+
+| pfname  | plname | dlname  | hospitalname |
++---------+--------+---------+--------------+
+| Bill    | Gellar | Shabado | St. Joseph   |
+| Colleen | Gellar | Shabado | St. Joseph   |
+| Scotty  | Bing   | Shabado | St. Joseph   |
+| Jon     | Green  | Spock   | Victoria     |
+| Scotty  | Bing   | Spock   | Victoria     |
+| Suzi    | Bing   | Spock   | Victoria     |
++---------+--------+---------+--------------+
+6 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM doctor
+--------------
+
++---------------+--------------+------------------+----------------+------------+----------------+
+| licensenumber | firstname    | lastname         | specialty      | date       | worksinhoscode |
++---------------+--------------+------------------+----------------+------------+----------------+
+| GD56          | Joey         | Shabado          | Podiatrist     | 1960-06-24 | BBC            |
+| JK78          | Mandy        | Webster          | Surgeon        | 1990-08-08 | BBC            |
+| MW42          | Hans-Wilhelm | Muller-Wohlfahrt | SportsMedicine | 1975-04-02 | ABC            |
+| RD34          | Bernie       | Kavorikian       | Urologist      | 1980-09-09 | BBC            |
+| SE66          | Colleen      | Aziz             | Surgeon        | 1989-08-24 | ABC            |
+| YT67          | Ben          | Spock            | Pediatrician   | 1955-02-20 | DDE            |
++---------------+--------------+------------------+----------------+------------+----------------+
+6 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM treat
+--------------
+
++-----------+---------------+
+| ohip      | licensenumber |
++-----------+---------------+
+| 110112113 | GD56          |
+| 444555666 | JK78          |
+| 111222333 | SE66          |
+| 111222333 | YT67          |
+| 111222333 | JK78          |
+| 333444555 | GD56          |
+| 667766777 | YT67          |
+| 667766777 | JK78          |
+| 667766777 | GD56          |
+| 111222111 | YT67          |
+| 251076600 | MW42          |
++-----------+---------------+
+11 rows in set (0.00 sec)
+
+--------------
+DELETE FROM doctor WHERE lastname = 'Clooney'
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+SELECT * FROM doctor
+--------------
+
++---------------+--------------+------------------+----------------+------------+----------------+
+| licensenumber | firstname    | lastname         | specialty      | date       | worksinhoscode |
++---------------+--------------+------------------+----------------+------------+----------------+
+| GD56          | Joey         | Shabado          | Podiatrist     | 1960-06-24 | BBC            |
+| JK78          | Mandy        | Webster          | Surgeon        | 1990-08-08 | BBC            |
+| MW42          | Hans-Wilhelm | Muller-Wohlfahrt | SportsMedicine | 1975-04-02 | ABC            |
+| RD34          | Bernie       | Kavorikian       | Urologist      | 1980-09-09 | BBC            |
+| SE66          | Colleen      | Aziz             | Surgeon        | 1989-08-24 | ABC            |
+| YT67          | Ben          | Spock            | Pediatrician   | 1955-02-20 | DDE            |
++---------------+--------------+------------------+----------------+------------+----------------+
+6 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM information_schema.REFERENTIAL_CONSTRAINTS
+	WHERE CONSTRAINT_SCHEMA = '251076600assign2db'
+--------------
+
++--------------------+--------------------+-----------------+---------------------------+--------------------------+------------------------+--------------+-------------+-------------+------------+-----------------------+
+| CONSTRAINT_CATALOG | CONSTRAINT_SCHEMA  | CONSTRAINT_NAME | UNIQUE_CONSTRAINT_CATALOG | UNIQUE_CONSTRAINT_SCHEMA | UNIQUE_CONSTRAINT_NAME | MATCH_OPTION | UPDATE_RULE | DELETE_RULE | TABLE_NAME | REFERENCED_TABLE_NAME |
++--------------------+--------------------+-----------------+---------------------------+--------------------------+------------------------+--------------+-------------+-------------+------------+-----------------------+
+| def                | 251076600assign2db | doctor_ibfk_1   | def                       | 251076600assign2db       | PRIMARY                | NONE         | RESTRICT    | RESTRICT    | doctor     | hospital              |
+| def                | 251076600assign2db | hospital_ibfk_1 | def                       | 251076600assign2db       | PRIMARY                | NONE         | RESTRICT    | RESTRICT    | hospital   | doctor                |
+| def                | 251076600assign2db | treat_ibfk_1    | def                       | 251076600assign2db       | PRIMARY                | NONE         | RESTRICT    | RESTRICT    | treat      | patient               |
+| def                | 251076600assign2db | treat_ibfk_2    | def                       | 251076600assign2db       | PRIMARY                | NONE         | RESTRICT    | CASCADE     | treat      | doctor                |
++--------------------+--------------------+-----------------+---------------------------+--------------------------+------------------------+--------------+-------------+-------------+------------+-----------------------+
+4 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM doctor
+--------------
+
++---------------+--------------+------------------+----------------+------------+----------------+
+| licensenumber | firstname    | lastname         | specialty      | date       | worksinhoscode |
++---------------+--------------+------------------+----------------+------------+----------------+
+| GD56          | Joey         | Shabado          | Podiatrist     | 1960-06-24 | BBC            |
+| JK78          | Mandy        | Webster          | Surgeon        | 1990-08-08 | BBC            |
+| MW42          | Hans-Wilhelm | Muller-Wohlfahrt | SportsMedicine | 1975-04-02 | ABC            |
+| RD34          | Bernie       | Kavorikian       | Urologist      | 1980-09-09 | BBC            |
+| SE66          | Colleen      | Aziz             | Surgeon        | 1989-08-24 | ABC            |
+| YT67          | Ben          | Spock            | Pediatrician   | 1955-02-20 | DDE            |
++---------------+--------------+------------------+----------------+------------+----------------+
+6 rows in set (0.00 sec)
+
+ERROR 1451 (23000) at line 48: Cannot delete or update a parent row: a foreign key constraint fails (`251076600assign2db`.`hospital`, CONSTRAINT `hospital_ibfk_1` FOREIGN KEY (`headdocid`) REFERENCES `doctor` (`licensenumber`))
+--------------
+DELETE FROM doctor WHERE specialty = 'Surgeon'
+--------------
+
+--------------
+SELECT * FROM doctor
+--------------
+
++---------------+--------------+------------------+----------------+------------+----------------+
+| licensenumber | firstname    | lastname         | specialty      | date       | worksinhoscode |
++---------------+--------------+------------------+----------------+------------+----------------+
+| GD56          | Joey         | Shabado          | Podiatrist     | 1960-06-24 | BBC            |
+| JK78          | Mandy        | Webster          | Surgeon        | 1990-08-08 | BBC            |
+| MW42          | Hans-Wilhelm | Muller-Wohlfahrt | SportsMedicine | 1975-04-02 | ABC            |
+| RD34          | Bernie       | Kavorikian       | Urologist      | 1980-09-09 | BBC            |
+| SE66          | Colleen      | Aziz             | Surgeon        | 1989-08-24 | ABC            |
+| YT67          | Ben          | Spock            | Pediatrician   | 1955-02-20 | DDE            |
++---------------+--------------+------------------+----------------+------------+----------------+
+6 rows in set (0.00 sec)
+
+Bye
