@@ -2,7 +2,7 @@ USE 251076600assign2db;
 
 -- Query 1
 DELETE FROM doctor WHERE date < '1965-01-01';
-
+-- the error occurs because the deletion operation violates the foreign key constraint, where the column `headdocid` in table hospital is a foreign key referencing on the column `licensenumber` in doctor
 
 
 SELECT * FROM doctor;
@@ -36,7 +36,7 @@ DELETE FROM doctor WHERE lastname = 'Clooney';
 
 -- Query 6
 SELECT * FROM doctor;
-
+SELECT * FROM treat;
 SELECT * FROM information_schema.REFERENTIAL_CONSTRAINTS
 	WHERE CONSTRAINT_SCHEMA = '251076600assign2db';
 

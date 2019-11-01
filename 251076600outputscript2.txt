@@ -42,7 +42,7 @@ VALUES
 	("251076600", "Dong", "Han")
 --------------
 
-Query OK, 1 row affected (0.01 sec)
+Query OK, 1 row affected (0.02 sec)
 
 --------------
 SELECT * FROM patient
@@ -83,7 +83,7 @@ VALUES
 	('YT67', 'Ben', 'Spock', 'Pediatrician', '1955-02-20', NULL),
 	('JK78', 'Mandy', 'Webster', 'Surgeon', '1990-08-08', NULL),
 	('SE66', 'Colleen', 'Aziz', 'Surgeon', '1989-08-24', NULL),
-	('MW42', 'Hans-Wilhelm', 'Muller-Wohlfahrt', 'SportsMedicine', '1975-04-02', NULL)
+	('MW42', 'Hans', 'Muller', 'SportsMedicine', '1975-04-02', NULL)
 --------------
 
 Query OK, 7 rows affected (0.01 sec)
@@ -93,24 +93,24 @@ Records: 7  Duplicates: 0  Warnings: 0
 SELECT * FROM doctor
 --------------
 
-+---------------+--------------+------------------+----------------+------------+----------------+
-| licensenumber | firstname    | lastname         | specialty      | date       | worksinhoscode |
-+---------------+--------------+------------------+----------------+------------+----------------+
-| GD56          | Joey         | Shabado          | Podiatrist     | 1960-06-24 | NULL           |
-| HT45          | Ross         | Clooney          | Surgeon        | 1987-06-20 | NULL           |
-| JK78          | Mandy        | Webster          | Surgeon        | 1990-08-08 | NULL           |
-| MW42          | Hans-Wilhelm | Muller-Wohlfahrt | SportsMedicine | 1975-04-02 | NULL           |
-| RD34          | Bernie       | Kavorikian       | Urologist      | 1980-09-09 | NULL           |
-| SE66          | Colleen      | Aziz             | Surgeon        | 1989-08-24 | NULL           |
-| YT67          | Ben          | Spock            | Pediatrician   | 1955-02-20 | NULL           |
-+---------------+--------------+------------------+----------------+------------+----------------+
++---------------+-----------+------------+----------------+------------+----------------+
+| licensenumber | firstname | lastname   | specialty      | date       | worksinhoscode |
++---------------+-----------+------------+----------------+------------+----------------+
+| GD56          | Joey      | Shabado    | Podiatrist     | 1960-06-24 | NULL           |
+| HT45          | Ross      | Clooney    | Surgeon        | 1987-06-20 | NULL           |
+| JK78          | Mandy     | Webster    | Surgeon        | 1990-08-08 | NULL           |
+| MW42          | Hans      | Muller     | SportsMedicine | 1975-04-02 | NULL           |
+| RD34          | Bernie    | Kavorikian | Urologist      | 1980-09-09 | NULL           |
+| SE66          | Colleen   | Aziz       | Surgeon        | 1989-08-24 | NULL           |
+| YT67          | Ben       | Spock      | Pediatrician   | 1955-02-20 | NULL           |
++---------------+-----------+------------+----------------+------------+----------------+
 7 rows in set (0.00 sec)
 
 --------------
 SELECT * FROM hospital
 --------------
 
-Empty set (0.02 sec)
+Empty set (0.08 sec)
 
 --------------
 INSERT INTO hospital (
@@ -128,7 +128,7 @@ VALUES
 	('DDE', 'Victoria', 'Victoria', 'BC', 1200, 'YT67', '1997-12-07')
 --------------
 
-Query OK, 3 rows affected (0.01 sec)
+Query OK, 3 rows affected (0.00 sec)
 Records: 3  Duplicates: 0  Warnings: 0
 
 --------------
@@ -181,19 +181,36 @@ SELECT * FROM treat
 | ohip      | licensenumber |
 +-----------+---------------+
 | 110112113 | GD56          |
-| 444555666 | HT45          |
-| 444555666 | JK78          |
-| 111222333 | SE66          |
-| 111222333 | YT67          |
-| 111222333 | JK78          |
 | 333444555 | GD56          |
-| 667766777 | YT67          |
-| 667766777 | JK78          |
 | 667766777 | GD56          |
-| 111222111 | YT67          |
+| 444555666 | HT45          |
+| 111222333 | JK78          |
+| 444555666 | JK78          |
+| 667766777 | JK78          |
 | 251076600 | MW42          |
+| 111222333 | SE66          |
+| 111222111 | YT67          |
+| 111222333 | YT67          |
+| 667766777 | YT67          |
 +-----------+---------------+
 12 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM doctor
+--------------
+
++---------------+-----------+------------+----------------+------------+----------------+
+| licensenumber | firstname | lastname   | specialty      | date       | worksinhoscode |
++---------------+-----------+------------+----------------+------------+----------------+
+| GD56          | Joey      | Shabado    | Podiatrist     | 1960-06-24 | NULL           |
+| HT45          | Ross      | Clooney    | Surgeon        | 1987-06-20 | NULL           |
+| JK78          | Mandy     | Webster    | Surgeon        | 1990-08-08 | NULL           |
+| MW42          | Hans      | Muller     | SportsMedicine | 1975-04-02 | NULL           |
+| RD34          | Bernie    | Kavorikian | Urologist      | 1980-09-09 | NULL           |
+| SE66          | Colleen   | Aziz       | Surgeon        | 1989-08-24 | NULL           |
+| YT67          | Ben       | Spock      | Pediatrician   | 1955-02-20 | NULL           |
++---------------+-----------+------------+----------------+------------+----------------+
+7 rows in set (0.00 sec)
 
 --------------
 UPDATE doctor SET worksinhoscode = 'BBC' WHERE licensenumber = 'RD34'
@@ -220,14 +237,14 @@ Rows matched: 1  Changed: 1  Warnings: 0
 UPDATE doctor SET worksinhoscode = 'DDE' WHERE licensenumber = 'YT67'
 --------------
 
-Query OK, 1 row affected (0.10 sec)
+Query OK, 1 row affected (0.01 sec)
 Rows matched: 1  Changed: 1  Warnings: 0
 
 --------------
 UPDATE doctor SET worksinhoscode = 'BBC' WHERE licensenumber = 'JK78'
 --------------
 
-Query OK, 1 row affected (0.01 sec)
+Query OK, 1 row affected (0.02 sec)
 Rows matched: 1  Changed: 1  Warnings: 0
 
 --------------
@@ -248,17 +265,110 @@ Rows matched: 1  Changed: 1  Warnings: 0
 SELECT * FROM doctor
 --------------
 
-+---------------+--------------+------------------+----------------+------------+----------------+
-| licensenumber | firstname    | lastname         | specialty      | date       | worksinhoscode |
-+---------------+--------------+------------------+----------------+------------+----------------+
-| GD56          | Joey         | Shabado          | Podiatrist     | 1960-06-24 | BBC            |
-| HT45          | Ross         | Clooney          | Surgeon        | 1987-06-20 | DDE            |
-| JK78          | Mandy        | Webster          | Surgeon        | 1990-08-08 | BBC            |
-| MW42          | Hans-Wilhelm | Muller-Wohlfahrt | SportsMedicine | 1975-04-02 | ABC            |
-| RD34          | Bernie       | Kavorikian       | Urologist      | 1980-09-09 | BBC            |
-| SE66          | Colleen      | Aziz             | Surgeon        | 1989-08-24 | ABC            |
-| YT67          | Ben          | Spock            | Pediatrician   | 1955-02-20 | DDE            |
-+---------------+--------------+------------------+----------------+------------+----------------+
++---------------+-----------+------------+----------------+------------+----------------+
+| licensenumber | firstname | lastname   | specialty      | date       | worksinhoscode |
++---------------+-----------+------------+----------------+------------+----------------+
+| GD56          | Joey      | Shabado    | Podiatrist     | 1960-06-24 | BBC            |
+| HT45          | Ross      | Clooney    | Surgeon        | 1987-06-20 | DDE            |
+| JK78          | Mandy     | Webster    | Surgeon        | 1990-08-08 | BBC            |
+| MW42          | Hans      | Muller     | SportsMedicine | 1975-04-02 | ABC            |
+| RD34          | Bernie    | Kavorikian | Urologist      | 1980-09-09 | BBC            |
+| SE66          | Colleen   | Aziz       | Surgeon        | 1989-08-24 | ABC            |
+| YT67          | Ben       | Spock      | Pediatrician   | 1955-02-20 | DDE            |
++---------------+-----------+------------+----------------+------------+----------------+
 7 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM patient
+--------------
+
++-----------+-----------+----------+
+| ohip      | firstname | lastname |
++-----------+-----------+----------+
+| 110112113 | Bill      | Gellar   |
+| 111222111 | Suzi      | Bing     |
+| 111222333 | Jon       | Green    |
+| 251076600 | Dong      | Han      |
+| 333444555 | Colleen   | Gellar   |
+| 444555666 | Sean      | Gellar   |
+| 667766777 | Scotty    | Bing     |
++-----------+-----------+----------+
+7 rows in set (0.00 sec)
+
+--------------
+UPDATE patient SET lastname = 'Brown' WHERE ohip = '111222111'
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+SELECT * FROM patient
+--------------
+
++-----------+-----------+----------+
+| ohip      | firstname | lastname |
++-----------+-----------+----------+
+| 110112113 | Bill      | Gellar   |
+| 111222111 | Suzi      | Brown    |
+| 111222333 | Jon       | Green    |
+| 251076600 | Dong      | Han      |
+| 333444555 | Colleen   | Gellar   |
+| 444555666 | Sean      | Gellar   |
+| 667766777 | Scotty    | Bing     |
++-----------+-----------+----------+
+7 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM treat
+--------------
+
++-----------+---------------+
+| ohip      | licensenumber |
++-----------+---------------+
+| 110112113 | GD56          |
+| 333444555 | GD56          |
+| 667766777 | GD56          |
+| 444555666 | HT45          |
+| 111222333 | JK78          |
+| 444555666 | JK78          |
+| 667766777 | JK78          |
+| 251076600 | MW42          |
+| 111222333 | SE66          |
+| 111222111 | YT67          |
+| 111222333 | YT67          |
+| 667766777 | YT67          |
++-----------+---------------+
+12 rows in set (0.00 sec)
+
+--------------
+UPDATE treat SET licensenumber = (SELECT licensenumber FROM doctor WHERE lastname = 'Clooney')
+	WHERE licensenumber in (SELECT licensenumber FROM doctor WHERE lastname = 'Spock')
+--------------
+
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+--------------
+SELECT * FROM treat
+--------------
+
++-----------+---------------+
+| ohip      | licensenumber |
++-----------+---------------+
+| 110112113 | GD56          |
+| 333444555 | GD56          |
+| 667766777 | GD56          |
+| 111222111 | HT45          |
+| 111222333 | HT45          |
+| 444555666 | HT45          |
+| 667766777 | HT45          |
+| 111222333 | JK78          |
+| 444555666 | JK78          |
+| 667766777 | JK78          |
+| 251076600 | MW42          |
+| 111222333 | SE66          |
++-----------+---------------+
+12 rows in set (0.00 sec)
 
 Bye

@@ -75,7 +75,7 @@ CREATE TABLE doctor (
 )
 --------------
 
-Query OK, 0 rows affected (0.20 sec)
+Query OK, 0 rows affected (0.16 sec)
 
 --------------
 CREATE TABLE patient (
@@ -108,18 +108,19 @@ Query OK, 0 rows affected (0.07 sec)
 CREATE TABLE treat (
 	ohip INT(9), 
 	licensenumber CHAR(4), 
+	PRIMARY KEY (ohip, licensenumber),
 	FOREIGN KEY (ohip) REFERENCES patient(ohip), 
 	FOREIGN KEY (licensenumber) REFERENCES doctor(licensenumber) ON DELETE CASCADE)
 --------------
 
-Query OK, 0 rows affected (0.19 sec)
+Query OK, 0 rows affected (0.07 sec)
 
 --------------
 ALTER TABLE doctor
 ADD FOREIGN KEY (worksinhoscode) REFERENCES hospital(hospitalcode)
 --------------
 
-Query OK, 0 rows affected (0.23 sec)
+Query OK, 0 rows affected (0.32 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
 --------------

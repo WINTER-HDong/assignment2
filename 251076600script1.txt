@@ -46,6 +46,7 @@ CREATE TABLE hospital (
 CREATE TABLE treat (
 	ohip INT(9), 
 	licensenumber CHAR(4), 
+	PRIMARY KEY (ohip, licensenumber),
 	FOREIGN KEY (ohip) REFERENCES patient(ohip), 
 	FOREIGN KEY (licensenumber) REFERENCES doctor(licensenumber) ON DELETE CASCADE);
 

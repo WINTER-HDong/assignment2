@@ -44,7 +44,7 @@ VALUES
 	('YT67', 'Ben', 'Spock', 'Pediatrician', '1955-02-20', NULL),
 	('JK78', 'Mandy', 'Webster', 'Surgeon', '1990-08-08', NULL),
 	('SE66', 'Colleen', 'Aziz', 'Surgeon', '1989-08-24', NULL),
-	('MW42', 'Hans-Wilhelm', 'Muller-Wohlfahrt', 'SportsMedicine', '1975-04-02', NULL);
+	('MW42', 'Hans', 'Muller', 'SportsMedicine', '1975-04-02', NULL);
 
 SELECT * FROM doctor; 
 
@@ -92,6 +92,8 @@ SELECT * FROM treat;
 
 
 -- update table doctor
+SELECT * FROM doctor;
+
 UPDATE doctor SET worksinhoscode = 'BBC' WHERE licensenumber = 'RD34';
 UPDATE doctor SET worksinhoscode = 'BBC' WHERE licensenumber = 'GD56';
 UPDATE doctor SET worksinhoscode = 'DDE' WHERE licensenumber = 'HT45';
@@ -101,3 +103,15 @@ UPDATE doctor SET worksinhoscode = 'ABC' WHERE licensenumber = 'SE66';
 UPDATE doctor SET worksinhoscode = 'ABC' WHERE licensenumber = 'MW42';
 
 SELECT * FROM doctor;
+
+
+-- update patient
+SELECT * FROM patient;
+UPDATE patient SET lastname = 'Brown' WHERE ohip = '111222111';
+SELECT * FROM patient;
+
+-- update treat
+SELECT * FROM treat;
+UPDATE treat SET licensenumber = (SELECT licensenumber FROM doctor WHERE lastname = 'Clooney')
+	WHERE licensenumber in (SELECT licensenumber FROM doctor WHERE lastname = 'Spock');
+SELECT * FROM treat;
